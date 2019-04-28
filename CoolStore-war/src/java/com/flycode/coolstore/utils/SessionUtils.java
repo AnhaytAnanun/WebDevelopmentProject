@@ -27,8 +27,10 @@ public class SessionUtils {
         session.setAttribute("isLoginFailed", true);
         session.setAttribute("failedUsername", request.getParameter("username"));
         session.setAttribute("failedPassword", request.getParameter("password"));
-        session.setAttribute("failedFirstName", request.getParameter("fname"));
-        session.setAttribute("failedLastName", request.getParameter("lname"));
+        session.setAttribute("failedFirstName", request.getParameter("firstName"));
+        session.setAttribute("failedLastName", request.getParameter("lastName"));
+        session.setAttribute("failedPhone", request.getParameter("phone"));
+        session.setAttribute("failedEmail", request.getParameter("email"));
         response.sendRedirect(isSignUp ? "../signup.jsp" : "../login.jsp");
     }
 }

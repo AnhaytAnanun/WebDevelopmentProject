@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
             
             Connection connection = DBUtils.connect();
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM Ei4gDiB26n.users WHERE Ei4gDiB26n.Users.username = ? AND Ei4gDiB26n.Users.password = ? LIMIT 1;");
+                    "SELECT * FROM Ei4gDiB26n.Users WHERE Ei4gDiB26n.Users.username = ? AND Ei4gDiB26n.Users.password = ? LIMIT 1;");
             statement.setString(1, username);
             statement.setString(2, password);
             ResultSet results = statement.executeQuery();

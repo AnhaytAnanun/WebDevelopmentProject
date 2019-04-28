@@ -43,8 +43,10 @@ public class SignupServlet extends HttpServlet {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             String confirmPassword = request.getParameter("confirm_password");
-            String firstName = request.getParameter("fname");
-            String lastName = request.getParameter("lname");
+            String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
+            String phone = request.getParameter("phone");
+            String email = request.getParameter("email");
 
             boolean valid = true;
 
@@ -72,6 +74,16 @@ public class SignupServlet extends HttpServlet {
                 valid = false;
                 errorString.append("Last Name cannot be empty. ");
             }
+
+            if (email == null || !email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")) {
+                valid = false;
+                errorString.append("Email is invalid. ");
+            }
+
+            if (phone == null || !phone.matches("^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$")) {
+                valid = false;
+                errorString.append("Phone number is invalid. ");
+            }
             
             if (!valid) {
                 SessionUtils.loginFailed(request, response, errorString.toString(), true);
@@ -81,11 +93,13 @@ public class SignupServlet extends HttpServlet {
             
             Connection connection = DBUtils.connect();
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO Ei4gDiB26n.users (Ei4gDiB26n.users.fname, Ei4gDiB26n.users.lname, Ei4gDiB26n.users.username, Ei4gDiB26n.users.password) VALUES (?, ?, ?, ?)");
+                    "INSERT INTO Ei4gDiB26n.Users (Ei4gDiB26n.Users.firstName, Ei4gDiB26n.Users.lastName, Ei4gDiB26n.Users.username, Ei4gDiB26n.Users.password, Ei4gDiB26n.Users.phone, Ei4gDiB26n.Users.email, Ei4gDiB26n.Users.role) VALUES (?, ?, ?, ?, ?, ?, 0)");
             statement.setString(1, firstName);
             statement.setString(2, lastName);
             statement.setString(3, username);
             statement.setString(4, password);
+            statement.setString(5, phone);
+            statement.setString(6, email);
             int affectedRows = statement.executeUpdate();
             
             if (affectedRows == 0) {
@@ -104,6 +118,8 @@ public class SignupServlet extends HttpServlet {
                 session.setAttribute("username", username);
                 session.setAttribute("firstName", firstName);
                 session.setAttribute("lastName", lastName);
+                session.setAttribute("phone", lastName);
+                session.setAttribute("email", lastName);
             } else {
                 valid = false;
             }

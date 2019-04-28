@@ -47,11 +47,17 @@
                 <label for="uname"><b>Username</b></label>
                 <input type="text" placeholder="Enter Username" name="username" value="<c:out value="${failedUsername}" />">
                 
-                <label for="uname"><b>First Name</b></label>
-                <input type="text" placeholder="Enter Username" name="fname" value="<c:out value="${failedFirstName}" />">
+                <label for="firstName"><b>First Name</b></label>
+                <input type="text" placeholder="Enter Username" name="firstName" value="<c:out value="${failedFirstName}" />">
                 
-                <label for="uname"><b>Last Name</b></label>
-                <input type="text" placeholder="Enter Username" name="lname" value="<c:out value="${failedLastName}" />">
+                <label for="lastName"><b>Last Name</b></label>
+                <input type="text" placeholder="Enter Username" name="lastName" value="<c:out value="${failedLastName}" />">
+                
+                <label for="phone"><b>Phone</b></label>
+                <input type="text" placeholder="Phone" name="phone" value="<c:out value="${failedPhone}" />">
+                
+                <label for="email"><b>Email</b></label>
+                <input type="text" placeholder="Email" name="email" value="<c:out value="${failedEmail}" />">
 
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Enter Password" name="password" value="<c:out value="${failedPassword}" />">
@@ -70,4 +76,6 @@
 <c:remove var="failedUsername" scope="session" />
 <c:remove var="failedFirstName" scope="session" />
 <c:remove var="failedLastName" scope="session" />
+<c:remove var="failedPhone" scope="session" />
+<c:remove var="failedEmail" scope="session" />
 <c:remove var="failedPassword" scope="session" />
