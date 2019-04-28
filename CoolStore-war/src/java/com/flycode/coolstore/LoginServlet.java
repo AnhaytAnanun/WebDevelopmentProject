@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
             
             Connection connection = DBUtils.connect();
             PreparedStatement statement = connection.prepareStatement(
-                    "SELECT * FROM Ei4gDiB26n.users WHERE Ei4gDiB26n.users.username = ? AND Ei4gDiB26n.users.password = ? LIMIT 1;");
+                    "SELECT * FROM Ei4gDiB26n.users WHERE Ei4gDiB26n.Users.username = ? AND Ei4gDiB26n.Users.password = ? LIMIT 1;");
             statement.setString(1, username);
             statement.setString(2, password);
             ResultSet results = statement.executeQuery();
@@ -66,10 +66,13 @@ public class LoginServlet extends HttpServlet {
             
             if (results.next()) {
                 HttpSession session = request.getSession(false);
-                session.setAttribute("userId", results.getInt("user_id"));
+                session.setAttribute("userId", results.getInt("userId"));
                 session.setAttribute("username", results.getString("username"));
-                session.setAttribute("firstName", results.getString("fname"));
-                session.setAttribute("lastName", results.getString("lname"));
+                session.setAttribute("firstName", results.getString("firstName"));
+                session.setAttribute("lastName", results.getString("lastName"));
+                session.setAttribute("phone", results.getString("phone"));
+                session.setAttribute("email", results.getString("email"));
+                session.setAttribute("role", results.getString("role"));
             } else {
                 valid = false;
             }
