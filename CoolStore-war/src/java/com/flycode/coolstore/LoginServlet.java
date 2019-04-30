@@ -72,7 +72,7 @@ public class LoginServlet extends HttpServlet {
                 session.setAttribute("lastName", results.getString("lastName"));
                 session.setAttribute("phone", results.getString("phone"));
                 session.setAttribute("email", results.getString("email"));
-                session.setAttribute("role", results.getString("role"));
+                session.setAttribute("role", results.getInt("role"));
             } else {
                 valid = false;
             }
@@ -90,7 +90,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("/CoolStore-war/");
             
         } catch (SQLException ex) {
-            Logger.getLogger(TopicsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AmenitiesServlet.class.getName()).log(Level.SEVERE, null, ex);
             SessionUtils.loginFailed(request, response, "Something went terribly wrong. Please, come back later!", false);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BrowseServlet.class.getName()).log(Level.SEVERE, null, ex);

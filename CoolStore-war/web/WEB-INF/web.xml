@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <servlet>
-        <servlet-name>TopicsServlet</servlet-name>
-        <servlet-class>com.flycode.coolstore.TopicsServlet</servlet-class>
+        <servlet-name>AmenitiesServlet</servlet-name>
+        <servlet-class>com.flycode.coolstore.AmenitiesServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>BrowseServlet</servlet-name>
@@ -29,8 +29,8 @@
         <servlet-class>com.flycode.coolstore.ReservationsServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>TopicsServlet</servlet-name>
-        <url-pattern>/api/topics</url-pattern>
+        <servlet-name>AmenitiesServlet</servlet-name>
+        <url-pattern>/api/amenities</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BrowseServlet</servlet-name>

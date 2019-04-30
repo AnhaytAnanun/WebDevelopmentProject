@@ -83,7 +83,7 @@ public class ReservationsServlet extends HttpServlet {
             
             connection.close();
         } catch (SQLException ex) {
-            Logger.getLogger(TopicsServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AmenitiesServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BrowseServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
