@@ -8,9 +8,8 @@
 <%@page import="com.flycode.coolstore.utils.SessionUtils"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    boolean isLoggedin = SessionUtils.isLoggedIn(session);
-    
-    session.setAttribute("isLoggedIn", isLoggedin);
+    session.setAttribute("isLoggedIn", SessionUtils.isLoggedIn(session));
+    session.setAttribute("isAdmin", SessionUtils.isAdmin(session));
 %>
 <!DOCTYPE html>
 <html>
@@ -28,6 +27,11 @@
             <div class="header-right">
                 
                 <c:choose>
+                    <c:when test="${isAdmin}">
+                        <a href="./profile.jsp">${firstName} ${lastName}</a>
+                        <a href="./edit.jsp">Add Property</a>
+                        <a href="./api/logout">Logout</a>
+                    </c:when>
                     <c:when test="${isLoggedIn}">
                         <a href="./profile.jsp">${firstName} ${lastName}</a>
                         <a href="./api/logout">Logout</a>
