@@ -118,9 +118,8 @@ public class SignupServlet extends HttpServlet {
                 session.setAttribute("username", username);
                 session.setAttribute("firstName", firstName);
                 session.setAttribute("lastName", lastName);
-                session.setAttribute("phone", phone);
-                session.setAttribute("email", email);
-                session.setAttribute("role", 0);
+                session.setAttribute("phone", lastName);
+                session.setAttribute("email", lastName);
             } else {
                 valid = false;
             }
@@ -144,7 +143,7 @@ public class SignupServlet extends HttpServlet {
                 return;
             }
             
-            Logger.getLogger(AmenitiesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TopicsServlet.class.getName()).log(Level.SEVERE, null, ex);
             SessionUtils.loginFailed(request, response, "Something went terribly wrong. Please, come back later!", true);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BrowseServlet.class.getName()).log(Level.SEVERE, null, ex);

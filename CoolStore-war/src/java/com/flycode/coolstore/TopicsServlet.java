@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author anhay
  */
-public class AmenitiesServlet extends HttpServlet {
+public class TopicsServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -40,31 +40,31 @@ public class AmenitiesServlet extends HttpServlet {
         try {
             Connection connection = DBUtils.connect();
             Statement statement = connection.createStatement();
-            ResultSet results = statement.executeQuery("SELECT * FROM Ei4gDiB26n.Amenities;");
+            ResultSet results = statement.executeQuery("SELECT * FROM Ei4gDiB26n.topics;");
             
             results.beforeFirst();
             
             response.setContentType("text/xml;charset=UTF-8");
             PrintWriter writer = response.getWriter();
             writer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            writer.append("<amenities>");
+            writer.append("<topics>");
             
             while (results.next()) {
-                writer.append("<amenity>");
-                writer.append("<amenity_id>").append(String.valueOf(results.getInt("amenityID"))).append("</amenity_id>");
-                writer.append("<amenity_name>").append(String.valueOf(results.getString("amenityName"))).append("</amenity_name>");
-                writer.append("</amenity>");
+                writer.append("<topic>");
+                writer.append("<topic_id>").append(String.valueOf(results.getInt("topic_id"))).append("</topic_id>");
+                writer.append("<topic_name>").append(String.valueOf(results.getString("topic_name"))).append("</topic_name>");
+                writer.append("</topic>");
             }
             
-            writer.append("</amenities>");
+            writer.append("</topics>");
             
             results.close();
             
             connection.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AmenitiesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TopicsServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AmenitiesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TopicsServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -21,15 +21,6 @@ public class SessionUtils {
         return userId != null && userId > 0;
     }
     
-    public static boolean isAdmin(HttpSession session) {
-        if (!isLoggedIn(session)) {
-            return false;
-        }
-        
-        Integer role = (Integer) session.getAttribute("role");
-        return role == 1;
-    }
-    
     public static void loginFailed(HttpServletRequest request, HttpServletResponse response, String errorMessage, boolean isSignUp) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         session.setAttribute("errorMessage", errorMessage);

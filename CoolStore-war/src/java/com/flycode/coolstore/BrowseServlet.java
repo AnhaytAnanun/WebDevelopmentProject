@@ -6,7 +6,6 @@
 package com.flycode.coolstore;
 
 import com.flycode.coolstore.utils.DBUtils;
-import com.flycode.coolstore.utils.SessionUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -41,83 +40,39 @@ public class BrowseServlet extends HttpServlet {
             throws ServletException, IOException {
         
         try {
-            String zip = request.getParameter("zip");
-            String state = request.getParameter("state");
-            String city = request.getParameter("city");
+            HttpSession session = request.getSession();
+            Integer userId = (Integer) session.getAttribute("userId");
             
-            int rentMinimum = getIntParameter(request, "rentMinimum");
-            int rentMaximum = getIntParameter(request, "rentMaximum");
-            int bedrooms = getIntParameter(request, "beds");
-            int bathrooms = getIntParameter(request, "bathrooms");            
+            if (userId == null) {
+                userId = 0;
+            }
             
-            boolean zipValid = zip != null && zip.matches("^[0-9]{5}(?:-[0-9]{4})?$");
-            boolean stateValid = state != null;
-            boolean cityValid = city != null;
-            boolean rentValid = rentMinimum > 0 && rentMaximum > rentMinimum;
-            boolean bedroomsValid = bedrooms > 0;
-            boolean bathroomsValid = bathrooms > 0;
-                        
+            int topic = 0;
+            
+            try {
+                topic = Integer.parseInt(request.getParameter("topic"));                
+            } catch (NumberFormatException ex) {
+                
+            }
+            
             StringBuilder query = new StringBuilder();
         
-            query.append("SELECT * FROM Ei4gDiB26n.Property ");
-            
-            if (SessionUtils.isAdmin(request.getSession(false))) {
-                query.append("WHERE Ei4gDiB26n.Property.availability = 0 OR Ei4gDiB26n.Property.availability = 1 ");
-            } else {
-                query.append("WHERE Ei4gDiB26n.Property.availability = 1 ");                
-            }
+            query.append("SELECT * FROM Ei4gDiB26n.books ")
+                    .append("LEFT JOIN Ei4gDiB26n.reservations ON Ei4gDiB26n.reservations.book_id = Ei4gDiB26n.books.book_id ")
+                    .append("LEFT JOIN Ei4gDiB26n.authors ON Ei4gDiB26n.books.author_id = Ei4gDiB26n.authors.author_id ")
+                    .append("LEFT JOIN Ei4gDiB26n.topics ON Ei4gDiB26n.books.topic_id = Ei4gDiB26n.topics.topic_id ");
                         
-            if (zipValid) {
-                query.append("AND Ei4gDiB26n.Property.zip = ? ");
+            if (topic != 0) {
+                query.append("WHERE topics.topic_id = ? ");
             }
-            if (stateValid) {
-                query.append("AND Ei4gDiB26n.Property.state = ? ");
-            }            
-            if (cityValid) {
-                query.append("AND Ei4gDiB26n.Property.city = ? ");
-            }            
-            if (rentValid) {
-                query.append("AND Ei4gDiB26n.Property.rent => ? AND Ei4gDiB26n.Property.rent <= ? ");
-            }
-            if (bedroomsValid) {
-                query.append("AND Ei4gDiB26n.Property.bedrooms = ? ");
-            }            
-            if (bathroomsValid) {
-                query.append("AND Ei4gDiB26n.Property.bathrooms = ? ");
-            }            
 
-            query.append("ORDER BY Ei4gDiB26n.Property.rent ASC");
+            query.append("ORDER BY Ei4gDiB26n.books.book_name");
             
             Connection connection = DBUtils.connect();
             PreparedStatement statement = connection.prepareStatement(query.toString());
             
-            int indexCounter = 1;
-
-            if (zipValid) {
-                statement.setString(indexCounter, zip);
-                indexCounter++;
-            }
-            if (stateValid) {
-                statement.setString(indexCounter, state);
-                indexCounter++;
-            }
-            if (cityValid) {
-                statement.setString(indexCounter, city);
-                indexCounter++;
-            }
-            if (rentValid) {
-                statement.setInt(indexCounter, rentMinimum);
-                indexCounter++;
-                statement.setInt(indexCounter, rentMaximum);
-                indexCounter++;
-            }
-            if (bedroomsValid) {
-                statement.setInt(indexCounter, bedrooms);
-                indexCounter++;
-            }
-            if (bathroomsValid) {
-                statement.setInt(indexCounter, bathrooms);
-                indexCounter++;
+            if (topic != 0) {
+                statement.setInt(1, topic);
             }
             
             ResultSet results = statement.executeQuery();
@@ -127,34 +82,34 @@ public class BrowseServlet extends HttpServlet {
             response.setContentType("text/xml;charset=UTF-8");
             PrintWriter writer = response.getWriter();
             writer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            writer.append("<properties>");
+            writer.append("<books>");
             
             while (results.next()) {
-                DBUtils.resultsToXml(writer, results);
+                writer.append("<book>");
+                writer.append("<book_id>").append(String.valueOf(results.getInt("book_id"))).append("</book_id>");
+                writer.append("<book_name>").append(String.valueOf(results.getString("book_name"))).append("</book_name>");
+                writer.append("<author_name>").append(String.valueOf(results.getString("author_name"))).append("</author_name>");
+                writer.append("<topic_name>").append(String.valueOf(results.getString("topic_name"))).append("</topic_name>");
+                writer.append("<is_available>").append(String.valueOf(results.getInt("is_available"))).append("</is_available>");
+                
+                if (userId.equals(results.getInt("user_id"))) {
+                    writer.append("<already_reserved>1</already_reserved>");
+                } else {
+                    writer.append("<already_reserved>0</already_reserved>");                    
+                }
+                
+                writer.append("</book>");
             }
             
-            writer.append("</properties>");
+            writer.append("</books>");
             
             results.close();
             
             connection.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AmenitiesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TopicsServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BrowseServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private int getIntParameter(HttpServletRequest request, String parameter) {
-        if (request.getParameter(parameter) == null) {
-            return -1;
-        }
-        
-        try {
-            return Integer.parseInt(request.getParameter(parameter));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
         }
     }
 }
