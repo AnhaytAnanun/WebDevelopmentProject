@@ -28,6 +28,10 @@
         <servlet-name>ReservationsServlet</servlet-name>
         <servlet-class>com.flycode.coolstore.ReservationsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditorServlet</servlet-name>
+        <servlet-class>com.flycode.coolstore.EditorServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AmenitiesServlet</servlet-name>
         <url-pattern>/api/amenities</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>ReservationsServlet</servlet-name>
         <url-pattern>/api/reservations</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditorServlet</servlet-name>
+        <url-pattern>/api/edit</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -27,7 +27,7 @@
     </head>
     <body>
         <div class="header">
-            <a href="./" class="logo">Awesome Library</a>
+            <a href="./" class="logo">Auburn Real Estate</a>
             <div class="header-right">
                 <a href="./">Home</a>
                 <a href="./signup.jsp">Sign Up</a>
@@ -35,7 +35,7 @@
         </div>
 
         <form class="auth" action="./api/login" method="post">    
-            <h2>Login Form</h2>
+            <h2>Sign In Form</h2>
 
             <div class="container">
                 <c:if test="${isLoginFailed}">

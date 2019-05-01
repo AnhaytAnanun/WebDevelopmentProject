@@ -10,6 +10,7 @@
 <%
     session.setAttribute("isLoggedIn", SessionUtils.isLoggedIn(session));
     session.setAttribute("isAdmin", SessionUtils.isAdmin(session));
+               
 %>
 <!DOCTYPE html>
 <html>
@@ -29,7 +30,7 @@
                 <c:choose>
                     <c:when test="${isAdmin}">
                         <a href="./profile.jsp">${firstName} ${lastName}</a>
-                        <a href="./edit.jsp">Add Property</a>
+                        <a href="./editor.jsp">Add Property</a>
                         <a href="./api/logout">Logout</a>
                     </c:when>
                     <c:when test="${isLoggedIn}">

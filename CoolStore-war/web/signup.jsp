@@ -27,15 +27,15 @@
     </head>
     <body>
         <div class="header">
-            <a href="./" class="logo">Awesome Library</a>
+            <a href="./" class="logo">Auburn Real Estate</a>
             <div class="header-right">
                 <a href="./">Home</a>
-                <a href="./login.jsp">Login</a>
+                <a href="./login.jsp">Sign Up</a>
             </div>
         </div>
 
         <form class="auth" action="./api/signup" method="post">    
-            <h2>Login Form</h2>
+            <h2>Sign Up Form</h2>
 
             <div class="container">
                 <c:if test="${isLoginFailed}">
